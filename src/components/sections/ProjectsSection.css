@@ -1,0 +1,532 @@
+/* ─────────────────────────────────────────────
+   PROJECTS SECTION — Horizontal Scroll Showcase
+   ───────────────────────────────────────────── */
+
+:root {
+  --project-width: 82vw;
+  --project-gap: 5vw;
+}
+
+/* ── Section Header ────────────────────────── */
+
+.ps-header {
+  max-width: 56rem;
+  margin-inline: auto;
+  padding-bottom: 1.25rem;
+}
+
+.ps-title {
+  font-family: var(--font-heading);
+  font-size: 3.75rem;
+  line-height: 1.05;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--color-white);
+  margin-bottom: 0.375rem;
+}
+
+.ps-subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 48rem) {
+  .ps-header {
+    padding-bottom: 2rem;
+  }
+
+  .ps-title {
+    font-size: 4.5rem;
+  }
+
+  .ps-subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* ── Desktop Pinned Container ──────────────── */
+
+.ps-pinned {
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--color-dark-bg);
+}
+
+.ps-track {
+  display: flex;
+  gap: var(--project-gap);
+  height: 100vh;
+  padding-left: var(--project-gap);
+  will-change: transform;
+}
+
+/* ── Individual Project Slide ──────────────── */
+
+.ps-slide {
+  position: relative;
+  flex-shrink: 0;
+  width: var(--project-width);
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+.ps-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: var(--color-dark-card);
+  border: 1px solid var(--color-dark-border);
+  border-radius: 1rem;
+  overflow: hidden;
+  will-change: transform, opacity;
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+/* ── Image Column ──────────────────────────── */
+
+.ps-image-col {
+  flex: 1 1 55%;
+  min-width: 0;
+  padding: 1rem 0 1rem 1rem;
+  display: flex;
+  align-items: stretch;
+}
+
+.ps-browser-frame {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-dark-border);
+  overflow: hidden;
+  min-height: 0;
+}
+
+.ps-browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--color-dark-border);
+  flex-shrink: 0;
+}
+
+.ps-browser-dots {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.ps-browser-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--color-heading-gray);
+}
+
+.ps-browser-label {
+  margin-left: auto;
+  font-size: 0.625rem;
+  color: var(--color-text-faint);
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+}
+
+.ps-image-area {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  overflow: hidden;
+}
+
+.ps-image-area img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.25rem;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ps-card:hover .ps-image-area img {
+  transform: scale(1.02);
+}
+
+.ps-image-placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.25rem;
+  background-color: var(--color-dark-bg);
+  border: 1px solid var(--color-dark-border);
+}
+
+/* ── Content Column ────────────────────────── */
+
+.ps-content-col {
+  flex: 1 1 45%;
+  min-width: 0;
+  padding: 2.5rem 2.5rem 2.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.875rem;
+}
+
+.ps-project-number {
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.ps-project-title {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  line-height: 1.05;
+  font-weight: 700;
+  color: var(--color-white);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.ps-project-desc {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.625;
+}
+
+.ps-project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ps-project-tag {
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--color-dark-border);
+  color: var(--color-text-muted);
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.ps-project-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: 0.25rem;
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 200ms ease;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.ps-project-cta:hover {
+  color: var(--color-white);
+}
+
+.ps-project-cta svg {
+  transition: transform 200ms ease;
+}
+
+.ps-project-cta:hover svg {
+  transform: translate(3px, -3px);
+}
+
+/* ── Bottom Progress Section ───────────────── */
+
+.ps-bottom {
+  max-width: 56rem;
+  margin-inline: auto;
+  padding-top: 1.5rem;
+  padding-bottom: 1rem;
+}
+
+.ps-counter {
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+  transition: color 300ms ease;
+}
+
+.ps-counter-current {
+  color: var(--color-white);
+}
+
+.ps-progress-bar {
+  position: relative;
+  height: 2px;
+  background-color: var(--color-dark-border);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.ps-progress-fill {
+  height: 100%;
+  border-radius: 1px;
+  background-color: var(--color-primary);
+  transition: width 100ms linear;
+  will-change: width;
+}
+
+/* ── Mobile Carousel (≤768px) ──────────────── */
+
+.ps-mobile {
+  display: none;
+  padding-inline: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+.ps-mobile-carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  gap: 1rem;
+}
+
+.ps-mobile-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.ps-mobile-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+.ps-mobile-card {
+  background-color: var(--color-dark-card);
+  border: 1px solid var(--color-dark-border);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.ps-mobile-image-col {
+  padding: 0.75rem 0.75rem 0;
+}
+
+.ps-mobile-browser {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-dark-border);
+  overflow: hidden;
+}
+
+.ps-mobile-browser .ps-browser-bar {
+  padding: 0.375rem 0.625rem;
+}
+
+.ps-mobile-browser .ps-browser-dot {
+  width: 0.375rem;
+  height: 0.375rem;
+}
+
+.ps-mobile-browser .ps-browser-label {
+  font-size: 0.5625rem;
+}
+
+.ps-mobile-browser .ps-image-area {
+  height: 12rem;
+  padding: 0.375rem;
+}
+
+.ps-mobile-browser .ps-image-area img {
+  border-radius: 0.125rem;
+}
+
+.ps-mobile-content {
+  padding: 1.25rem 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.ps-mobile-content .ps-project-number {
+  font-size: 0.75rem;
+}
+
+.ps-mobile-content .ps-project-title {
+  font-size: 1.5rem;
+  line-height: 1.1;
+}
+
+.ps-mobile-content .ps-project-desc {
+  font-size: 0.8125rem;
+}
+
+.ps-mobile-content .ps-project-tags {
+  gap: 0.375rem;
+}
+
+.ps-mobile-content .ps-project-tag {
+  font-size: 0.625rem;
+  padding: 0.1875rem 0.5rem;
+}
+
+.ps-mobile-content .ps-project-cta {
+  font-size: 0.75rem;
+  margin-top: 0.125rem;
+}
+
+/* Mobile progress */
+.ps-mobile-progress {
+  padding-top: 1.25rem;
+}
+
+/* ── Desktop Responsive ────────────────────── */
+
+@media (min-width: 1100px) {
+  .ps-slide {
+    height: 75vh;
+  }
+
+  .ps-project-title {
+    font-size: 3rem;
+  }
+
+  .ps-project-desc {
+    font-size: 0.9375rem;
+  }
+
+  .ps-content-col {
+    padding: 3rem 3rem 3rem 2rem;
+  }
+}
+
+@media (min-width: 1400px) {
+  :root {
+    --project-width: 75vw;
+  }
+
+  .ps-slide {
+    height: 78vh;
+  }
+
+  .ps-project-title {
+    font-size: 3.25rem;
+  }
+}
+
+/* ── Tablet Breakpoint ─────────────────────── */
+
+@media (max-width: 1099px) {
+  :root {
+    --project-width: 88vw;
+    --project-gap: 4vw;
+  }
+
+  .ps-slide {
+    height: 65vh;
+    padding: 1.5rem 0;
+  }
+
+  .ps-project-title {
+    font-size: 2rem;
+  }
+
+  .ps-project-desc {
+    font-size: 0.8125rem;
+  }
+
+  .ps-content-col {
+    padding: 2rem 1.5rem 2rem 1rem;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --project-width: 92vw;
+    --project-gap: 3vw;
+  }
+
+  .ps-slide {
+    height: 60vh;
+    padding: 1rem 0;
+  }
+
+  .ps-content-col {
+    padding: 1.5rem 1rem 1.5rem 0.875rem;
+    gap: 0.625rem;
+  }
+
+  .ps-project-title {
+    font-size: 1.75rem;
+  }
+
+  .ps-project-number {
+    font-size: 0.75rem;
+  }
+
+  .ps-project-desc {
+    font-size: 0.75rem;
+  }
+
+  .ps-project-tag {
+    font-size: 0.625rem;
+  }
+}
+
+/* ── Mobile Breakpoint ─────────────────────── */
+
+@media (max-width: 768px) {
+  .ps-pinned,
+  .ps-bottom {
+    display: none;
+  }
+
+  .ps-mobile {
+    display: block;
+  }
+
+  .ps-header {
+    padding-bottom: 1.25rem;
+  }
+
+  .ps-title {
+    font-size: 2.5rem;
+  }
+
+  .ps-subtitle {
+    font-size: 0.8125rem;
+  }
+}
+
+/* ── Small Mobile ──────────────────────────── */
+
+@media (max-width: 400px) {
+  .ps-mobile-content {
+    padding: 1rem 0.75rem 1.25rem;
+  }
+
+  .ps-mobile-content .ps-project-title {
+    font-size: 1.25rem;
+  }
+
+  .ps-mobile-browser .ps-image-area {
+    height: 10rem;
+  }
+}

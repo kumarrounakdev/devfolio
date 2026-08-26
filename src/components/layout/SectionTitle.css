@@ -1,0 +1,41 @@
+.section-title {
+  margin-bottom: 2rem;
+  font-family: var(--font-heading);
+  font-size: 3.75rem;
+  line-height: 1.05;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.section-title__line {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.section-title__char-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.08em;
+}
+
+.section-title__char {
+  display: inline-block;
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.section-title__white {
+  color: var(--color-white);
+}
+
+.section-title__gray {
+  color: var(--color-heading-gray);
+}
+
+@media (min-width: 48rem) {
+  .section-title {
+    font-size: 4.5rem;
+  }
+}

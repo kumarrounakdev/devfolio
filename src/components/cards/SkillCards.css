@@ -1,0 +1,109 @@
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.skill-card {
+  position: relative;
+  overflow: hidden;
+  padding: 1.25rem;
+  cursor: pointer;
+  border-radius: 1rem;
+
+  transition-property: transform, translate, scale, rotate;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.skill-card:hover {
+  transform: scale(1.02);
+}
+
+/* Content stays above the pattern */
+.skill-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ================================
+   CARD BACKGROUNDS
+================================ */
+
+.skill-card--orange {
+  background-color: var(--color-primary);
+}
+
+.skill-card--lime {
+  background-color: var(--color-accent);
+}
+
+/* ================================
+   SAME SVG PATTERN
+================================ */
+
+.skill-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: 0;
+
+  opacity: 0.22;
+
+  background-repeat: repeat;
+  background-size: 180px 180px;
+}
+
+/* Purple card — dark contrasting pattern */
+.skill-card--orange::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%230A0A0F' stroke-width='2'%3E%3Cpath d='M-20 45 L20 5 L60 45 L100 5 L140 45 L180 5 L220 45'/%3E%3Cpath d='M-20 105 L20 65 L60 105 L100 65 L140 105 L180 65 L220 105'/%3E%3Cpath d='M-20 165 L20 125 L60 165 L100 125 L140 165 L180 125 L220 165'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Cyan card — dark contrasting pattern */
+.skill-card--lime::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%23065366' stroke-width='2'%3E%3Cpath d='M-20 45 L20 5 L60 45 L100 5 L140 45 L180 5 L220 45'/%3E%3Cpath d='M-20 105 L20 65 L60 105 L100 65 L140 105 L180 65 L220 105'/%3E%3Cpath d='M-20 165 L20 125 L60 165 L100 125 L140 165 L180 125 L220 165'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ================================
+   TITLE
+================================ */
+
+.skill-card__title {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.skill-card__title--white {
+  color: var(--color-white);
+}
+
+.skill-card__title--dark {
+  color: var(--color-ink);
+}
+
+/* ================================
+   LIST
+================================ */
+
+.skill-card__list {
+  margin-top: 0.75rem;
+
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  font-weight: 500;
+
+  list-style: none;
+}
+
+.skill-card__list--white {
+  color: var(--color-white);
+}
+
+.skill-card__list--dark {
+  color: var(--color-ink);
+}

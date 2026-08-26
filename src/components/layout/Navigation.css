@@ -1,0 +1,95 @@
+.navigation {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  max-width: calc(100vw - 1rem);
+}
+
+/* Adapt the bottom-dock to a fixed top navbar:
+   keep the panel anchored instead of sliding down
+   when the outer container animates its height. */
+.navigation .dock-outer {
+  height: auto !important;
+  margin: 0;
+}
+
+.navigation .dock-panel {
+  position: relative;
+  inset: auto;
+  transform: none;
+  gap: 0.45rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 9999px;
+  background-color: var(--color-dark-card);
+  border-color: var(--color-dark-border);
+}
+
+/* transparent tiles like the old nav buttons */
+.navigation .dock-item {
+  border-radius: 9999px;
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navigation .dock-item:not(.active):hover {
+  background-color: var(--overlay-nav-hover);
+}
+
+.navigation .dock-icon {
+  color: var(--color-text-muted);
+}
+
+.navigation .dock-item:hover .dock-icon,
+.navigation .dock-item:focus-visible .dock-icon {
+  color: var(--color-white);
+}
+
+/* active section: white tile, black icon */
+.navigation .dock-item.active {
+  background-color: var(--color-white);
+  border-color: var(--color-white);
+}
+
+.navigation .dock-item.active .dock-icon {
+  color: var(--color-black);
+}
+
+.navigation .dock-icon svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.navigation .dock-label {
+  top: -2rem;
+  background-color: var(--color-dark-card);
+  border-color: var(--color-dark-border);
+}
+
+/* phones & tablets: no hover animations — desktops only */
+@media (max-width: 1024px) {
+  .navigation .dock-item {
+    transition: none;
+  }
+
+  .navigation .dock-item:not(.active):hover {
+    background-color: transparent;
+  }
+
+  .navigation .dock-icon:hover,
+  .navigation .dock-item:hover .dock-icon,
+  .navigation .dock-item:focus-visible .dock-icon {
+    color: var(--color-text-muted);
+  }
+
+  .navigation .dock-item.active .dock-icon {
+    color: var(--color-black);
+  }
+
+  .navigation .dock-label {
+    display: none;
+  }
+}

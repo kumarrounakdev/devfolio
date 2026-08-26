@@ -1,0 +1,16 @@
+.tool-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tool-card__name {
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+.tool-card__category {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  line-height: calc(1 / 0.875);
+}

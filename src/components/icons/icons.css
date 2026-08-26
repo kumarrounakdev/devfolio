@@ -1,0 +1,55 @@
+/* Shared icon sizing (replaces w-4/h-4 … w-7/h-7 utilities) */
+.icon-xs { width: 1rem; height: 1rem; }
+.icon-sm { width: 1.25rem; height: 1.25rem; }
+.icon-md { width: 1.5rem; height: 1.5rem; }
+.icon-lg { width: 1.75rem; height: 1.75rem; }
+
+/* ArrowUpRight default size + variants */
+.arrow-icon { width: 1.25rem; height: 1.25rem; }
+.arrow-icon--sm { width: 1rem; height: 1rem; }
+.arrow-icon--white { color: var(--color-white); }
+.arrow-icon--dark { color: var(--color-ink); }
+.icon-black { color: var(--color-black); }
+
+/* Tool brand chips */
+.tool-logo {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+}
+
+.tool-logo--black { background-color: var(--color-black); }
+.tool-logo--white { background-color: var(--color-white); }
+.tool-logo--yellow { background-color: var(--color-yellow); }
+
+.tool-logo__emoji {
+  font-size: 1.5rem;
+  line-height: calc(2 / 1.5);
+}
+
+.tool-logo__badge {
+  width: 2rem;
+  height: 2rem;
+  background-color: var(--color-black);
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tool-logo__badge-letter {
+  color: var(--color-white);
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: calc(1.75 / 1.125);
+}
+
+.tool-logo__letter {
+  color: var(--color-black);
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: calc(1.75 / 1.25);
+}

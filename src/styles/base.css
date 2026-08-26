@@ -1,0 +1,206 @@
+/*
+  Base styles replicating the Tailwind v4 preflight reset for the
+  elements this app uses, plus theme tokens as plain CSS variables.
+*/
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0 solid;
+}
+
+html {
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  font-family:
+    ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  line-height: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  border-radius: 0;
+  background-color: transparent;
+  opacity: 1;
+}
+
+button {
+  cursor: pointer;
+}
+
+input::placeholder,
+textarea::placeholder {
+  opacity: 1;
+}
+
+textarea {
+  resize: vertical;
+}
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  vertical-align: middle;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/*
+  Theme tokens — single source of truth.
+  Every other stylesheet must reference these variables
+  instead of hard-coding raw values.
+*/
+
+:root {
+
+  /* Brand palette */
+
+  --color-primary: #8B5CF6;
+
+  --color-primary-hover: #A78BFA;
+
+  --color-accent: #60A5FA;
+
+
+  /* Dark surfaces & borders */
+
+  --color-dark-bg: #08080C;
+
+  --color-dark-card: #111116;
+
+  --color-dark-card-hover: #18181F;
+
+  --color-dark-border: #292633;
+
+
+  /* Dock surfaces */
+
+  --color-dock-bg: #0D0B12;
+
+  --color-dock-border: #292333;
+
+
+  /* Text on dark backgrounds */
+
+  --color-text-primary: #F5F3FF;
+
+  --color-text-secondary: #B8B2C8;
+
+  --color-text-muted: #777184;
+
+  --color-text-faint: #4B4655;
+
+  --color-heading-gray: #393542;
+
+
+  /* Text & ink on light backgrounds */
+
+  --color-text-on-light: #121016;
+
+  --color-text-quaternary: #403A49;
+
+  --color-ink: #18151D;
+
+
+  /* Neutrals */
+
+  --color-white: #FFFFFF;
+
+  --color-black: #000000;
+
+  --color-yellow: #F59E0B;
+
+
+  /* Uchiha-inspired accent */
+
+  --color-crimson: #B91C3B;
+
+  --color-crimson-hover: #DC264B;
+
+
+  /* Fonts */
+
+  --font-heading: 'Space Grotesk', sans-serif;
+
+  --font-body: 'Inter', sans-serif;
+
+
+  /* Translucent overlays */
+
+  --overlay-white-10: rgba(255, 255, 255, 0.10);
+
+  --overlay-white-20: rgba(255, 255, 255, 0.20);
+
+  --overlay-white-30: rgba(255, 255, 255, 0.30);
+
+  --overlay-black-10: rgba(0, 0, 0, 0.10);
+
+  --overlay-black-20: rgba(0, 0, 0, 0.20);
+
+  --overlay-nav-hover: rgba(139, 92, 246, 0.25);
+
+
+  /* Shadows */
+
+  --shadow-dock-item:
+    0 4px 12px -2px rgba(0, 0, 0, 0.45),
+    0 2px 6px -2px rgba(0, 0, 0, 0.25);
+
+}
+
+.section-shell {
+  max-width: 56rem;
+  margin-inline: auto;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 48rem) {
+  .section-shell {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .section-shell {
+    padding-inline: 4rem;
+  }
+}

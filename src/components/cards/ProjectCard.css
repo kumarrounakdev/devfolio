@@ -1,0 +1,56 @@
+.project-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  cursor: pointer;
+  background-color: var(--color-dark-card);
+  border-radius: 1rem;
+  transition-property: all;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-card:hover {
+  background-color: var(--color-dark-card-hover);
+}
+
+.project-card__thumb {
+  width: 5rem;
+  height: 4rem;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 0.75rem;
+}
+
+.project-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-card__body {
+  flex: 1 1 0%;
+}
+
+.project-card__title {
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+.project-card__subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  line-height: calc(1 / 0.875);
+}
+
+.project-arrow {
+  color: var(--color-text-faint);
+  transition-property: all;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-list > * + * {
+  margin-top: 1rem;
+}

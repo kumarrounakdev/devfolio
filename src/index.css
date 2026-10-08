@@ -56,11 +56,6 @@ body {
 .delay-300 { animation-delay: 300ms; }
 .delay-400 { animation-delay: 400ms; }
 
-/* GSAP Hardware acceleration helper */
-.will-animate {
-  will-change: transform, opacity;
-}
-
 /* Card hover effects */
 .project-card:hover .project-arrow {
   transform: translate(4px, -4px);

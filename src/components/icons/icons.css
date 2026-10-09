@@ -19,11 +19,45 @@
   align-items: center;
   justify-content: center;
   border-radius: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* Every brand glyph fills the chip at a uniform scale */
+.tool-logo svg {
+  width: 86%;
+  height: 86%;
+}
+
+/* Very small phones: shrink the chip so 2-col tool cards fit */
+@media (max-width: 400px) {
+  .tool-logo {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.625rem;
+  }
 }
 
 .tool-logo--black { background-color: var(--color-black); }
 .tool-logo--white { background-color: var(--color-white); }
 .tool-logo--yellow { background-color: var(--color-yellow); }
+.tool-logo--green { background-color: #00684A; }
+.tool-logo--dark { background-color: #333; }
+.tool-logo--node { background-color: #339933; }
+.tool-logo--js { background-color: #F0DB4F; }
+
+/* A little breathing room inside these brand marks */
+.tool-logo--node,
+.tool-logo--redux,
+.tool-logo--express {
+  padding: 0.35rem;
+}
+
+.tool-logo--node svg,
+.tool-logo--redux svg,
+.tool-logo--express svg {
+  width: 100%;
+  height: 100%;
+}
 
 .tool-logo__emoji {
   font-size: 1.5rem;

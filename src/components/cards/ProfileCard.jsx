@@ -14,7 +14,7 @@ const ProfileCardComponent = ({
   behindGlowSize,
   className = '',
   name = 'Rounak Kumar',
-  title = 'Frontend Developer',
+  title = 'Fullstack Developer',
   handle = 'javicodes',
   status = 'Available',
   contactText = 'Download Resume',

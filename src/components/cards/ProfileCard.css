@@ -59,12 +59,12 @@
 .pc-card {
   height: 80svh;
   max-height: 540px;
+  max-width: calc(100vw - 2rem);
   display: grid;
   aspect-ratio: 0.718;
   border-radius: var(--card-radius);
   position: relative;
   background-blend-mode: color-dodge, normal, normal, normal;
-  animation: glow-bg 12s linear infinite;
   box-shadow: rgba(0, 0, 0, 0.8) calc((var(--pointer-from-left) * 10px) - 3px)
     calc((var(--pointer-from-top) * 20px) - 6px) 20px -5px;
   transition: transform 1s ease;
@@ -111,8 +111,6 @@
   mask-position: top calc(200% - (var(--background-y) * 5)) left calc(100% - var(--background-x));
   transition: filter 0.8s ease;
   filter: brightness(0.66) contrast(1.33) saturate(0.33) opacity(0.5);
-  animation: holo-bg 18s linear infinite;
-  animation-play-state: running;
   mix-blend-mode: color-dodge;
 }
 
@@ -252,7 +250,6 @@
   transform: translateX(-50%) translateZ(0);
   bottom: -1px;
   backface-visibility: hidden;
-  will-change: transform;
 }
 
 .pc-avatar-content::before {
@@ -276,7 +273,7 @@
   align-items: center;
   justify-content: center;
   background: rgba(224, 224, 224, 0.035);
-  backdrop-filter: blur(160px);
+  backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: calc(max(0px, var(--card-radius) - var(--ui-inset) + var(--ui-radius-bias)));
   padding: 12px 14px;
@@ -385,36 +382,10 @@
   -webkit-background-clip: text;
 }
 
-@keyframes glow-bg {
-  0% {
-    --bgrotate: 0deg;
-  }
-
-  100% {
-    --bgrotate: 360deg;
-  }
-}
-
-@keyframes holo-bg {
-  0% {
-    background-position:
-      0 var(--background-y),
-      0 0,
-      center;
-  }
-
-  100% {
-    background-position:
-      0 var(--background-y),
-      90% 90%,
-      center;
-  }
-}
-
 @media (max-width: 768px) {
   .pc-card {
-    height: 70svh;
-    max-height: 450px;
+    height: 75svh;
+    max-height: 480px;
   }
 
   .pc-details {
@@ -454,8 +425,8 @@
 
 @media (max-width: 480px) {
   .pc-card {
-    height: 60svh;
-    max-height: 380px;
+    height: 66svh;
+    max-height: 420px;
   }
 
   .pc-details {
@@ -497,8 +468,8 @@
 
 @media (max-width: 320px) {
   .pc-card {
-    height: 55svh;
-    max-height: 320px;
+    height: 60svh;
+    max-height: 350px;
   }
 
   .pc-details h3 {

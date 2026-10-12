@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { HomeIcon, FolderIcon, BriefcaseIcon, LinkIcon, EditIcon } from "../icons/NavIcons";
+import {
+  HomeIcon,
+  FolderIcon,
+  LinkIcon,
+  ContactIcon,
+} from "../icons/NavIcons";
 import Dock from "./Dock";
 import { getLenis } from "../../utils/smoothScroll";
 import "./Navigation.css";
@@ -24,9 +29,8 @@ function useIsSmallScreen() {
 const navItems = [
   { id: "home", label: "Home", icon: <HomeIcon /> },
   { id: "projects", label: "Projects", icon: <FolderIcon /> },
-  { id: "experience", label: "Experience", icon: <BriefcaseIcon /> },
   { id: "tools", label: "Tools", icon: <LinkIcon /> },
-  { id: "blog", label: "Blog", icon: <EditIcon /> },
+  { id: "contact", label: "Contact", icon: <ContactIcon /> },
 ];
 
 export default function Navigation({ activeSection }) {
@@ -34,11 +38,13 @@ export default function Navigation({ activeSection }) {
 
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
-    const lenis = getLenis();
-    if (lenis && el) {
-      lenis.scrollTo(el, { offset: -20, duration: 1.8 });
-    } else if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+    if (el) {
+      const lenis = getLenis();
+      if (lenis) {
+        lenis.scrollTo(el, { offset: 0 });
+      } else {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 

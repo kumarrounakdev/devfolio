@@ -1,9 +1,6 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./SectionTitle.css";
-
-gsap.registerPlugin(ScrollTrigger);
 
 function SplitText({ text, className }) {
   if (!text) return null;
@@ -18,57 +15,61 @@ function SplitText({ text, className }) {
   );
 }
 
-export default function SectionTitle({ white, gray, tag = "h2", immediate = false, className = "" }) {
+export default function SectionTitle({ white, gray, tag = "h2", animate = true, onAnimComplete, className = "" }) {
   const Tag = tag;
   const ref = useRef(null);
+  const cbRef = useRef(onAnimComplete);
 
   useEffect(() => {
+    cbRef.current = onAnimComplete;
+  }, [onAnimComplete]);
+
+  useEffect(() => {
+    if (!animate) {
+      cbRef.current?.();
+      return;
+    }
+
     const el = ref.current;
     if (!el) return;
 
     const chars = el.querySelectorAll(".section-title__char");
     if (!chars.length) return;
 
-    // Set initial position
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      cbRef.current?.();
+      return;
+    }
+
     gsap.set(chars, {
       y: "110%",
       opacity: 0,
       rotateX: -30,
     });
 
-    if (immediate) {
-      const tl = gsap.timeline({ delay: 0.1 });
-      tl.to(chars, {
-        y: "0%",
-        opacity: 1,
-        rotateX: 0,
-        duration: 0.7,
-        ease: "power3.out",
-        stagger: 0.025,
-      });
-      return () => tl.kill();
-    }
-
-    const st = ScrollTrigger.create({
-      trigger: el,
-      start: "top 85%",
-      once: true,
-      onEnter: () => {
-        gsap.to(chars, {
-          y: "0%",
-          opacity: 1,
-          rotateX: 0,
-          duration: 0.7,
-          ease: "power3.out",
-          stagger: 0.025,
-        });
+    /* Scroll-scrubbed character reveal */
+    const tween = gsap.to(chars, {
+      y: "0%",
+      opacity: 1,
+      rotateX: 0,
+      ease: "none",
+      stagger: 0.016,
+      scrollTrigger: {
+        trigger: el,
+        start: "top 90%",
+        end: "top 50%",
+        scrub: true,
+        onUpdate: (self) => {
+          if (self.progress >= 1) cbRef.current?.();
+        },
       },
     });
 
     return () => {
-      st.kill();
+      tween.scrollTrigger?.kill();
+      tween.kill();
     };
-  }, [immediate]);
+  }, [animate]);
 
   return (
     <Tag ref={ref} className={`section-title ${className}`.trim()}>

@@ -1,0 +1,75 @@
+/* ─────────────────────────────────────────────
+   PRELOADER
+   ───────────────────────────────────────────── */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-dark-bg);
+  user-select: none;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.preloader__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.preloader__name {
+  font-family: var(--font-heading);
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-white);
+}
+
+.preloader__progress-wrap {
+  width: clamp(180px, 40vw, 320px);
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.preloader__bar {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), #a78bfa);
+  border-radius: 2px;
+  transform-origin: left center;
+}
+
+.preloader__counter {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 7vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-primary);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Very small phones: tighten spacing so the stack stays balanced */
+@media (max-width: 400px) {
+  .preloader__inner {
+    gap: 1rem;
+    padding-inline: 1rem;
+  }
+
+  .preloader__name {
+    font-size: 1.125rem;
+    letter-spacing: 0.06em;
+  }
+
+  .preloader__progress-wrap {
+    width: min(64vw, 320px);
+  }
+}

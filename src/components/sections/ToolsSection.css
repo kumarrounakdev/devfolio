@@ -1,5 +1,18 @@
 .tools-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2rem;
+  gap: 1.5rem;
+}
+
+@media (max-width: 400px) {
+  .tools-grid {
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 48rem) {
+  .tools-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2rem;
+  }
 }

@@ -1,16 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SectionTitle from "../layout/SectionTitle";
 import { projects } from "../../data/content";
 import "./ProjectsSection.css";
 
-gsap.registerPlugin(ScrollTrigger);
-
-const MOBILE_BP = 769;
-const isMobileInitial =
-  typeof window !== "undefined" && window.innerWidth < MOBILE_BP;
-
-/* ── Arrow SVG ────────────────────────────── */
 function ArrowIcon() {
   return (
     <svg
@@ -30,361 +24,143 @@ function ArrowIcon() {
   );
 }
 
-/* ── Single project card content ──────────── */
-function ProjectCardContent({ project }) {
-  const hasImage = !!project.image;
+export default function ProjectsSection() {
+  const containerRef = useRef(null);
+  const pinnedRef = useRef(null);
+  const trackRef = useRef(null);
+  const panelsRef = useRef([]);
+
+  useEffect(() => {
+    const pinnedEl = pinnedRef.current;
+    const trackEl = trackRef.current;
+    const panels = panelsRef.current.filter(Boolean);
+
+    if (!pinnedEl || !trackEl || !panels.length) return;
+
+    /* Helper: Calculate horizontal distance dynamically.
+       Distance = total width of track content minus the viewport width. */
+    const getScrollDistance = () => {
+      return trackEl.scrollWidth - window.innerWidth;
+    };
+
+    /* Set up GSAP Context for scope & auto-cleanup */
+    const ctx = gsap.context(() => {
+      /* Main timeline: translation + pinning */
+      const mainTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: pinnedEl,
+          pin: true,
+          start: "top top",
+          end: () => `+=${getScrollDistance()}`,
+          scrub: 1,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      /* Dynamic horizontal translation from right to left */
+      mainTl.to(trackEl, {
+        x: () => -getScrollDistance(),
+        ease: "none",
+      });
+    }, containerRef);
+
+    /* Refresh ScrollTrigger on window resize for exact responsive recalculation */
+    let resizeTimer;
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 250);
+    };
+    window.addEventListener("resize", handleResize);
+
+    /* Clean up all animations and ScrollTriggers on unmount */
+    return () => {
+      clearTimeout(resizeTimer);
+      window.removeEventListener("resize", handleResize);
+      ctx.revert();
+    };
+  }, []);
 
   return (
-    <>
-      <div className="ps-image-col">
-        <div className="ps-browser-frame">
-          <div className="ps-browser-bar">
-            <div className="ps-browser-dots">
-              <span className="ps-browser-dot" />
-              <span className="ps-browser-dot" />
-              <span className="ps-browser-dot" />
+    <div ref={containerRef} className="ps-horizontal-wrapper" id="projects">
+      {/* Header Shell */}
+      <div className="ps-header-shell">
+        <SectionTitle white="Recent" gray="Projects" />
+      </div>
+
+      {/* Pinned Fullscreen Horizontal Container */}
+      <div ref={pinnedRef} className="ps-pinned-container">
+        <div ref={trackRef} className="ps-track">
+          {projects.map((project, index) => (
+            <div
+              key={project.number || project.title}
+              ref={(el) => (panelsRef.current[index] = el)}
+              className="ps-panel ps-panel--compact"
+            >
+              <div className="ps-compact">
+                {/* LEFT - 40% */}
+                <div className="ps-compact__left">
+                  <div className="ps-compact__meta">
+                    <span className="ps-compact__index">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="ps-compact__label">
+                      {project.category || "Project"}
+                    </span>
+                  </div>
+
+                  <h3 className="ps-compact__title">{project.title}</h3>
+
+                  {project.description && (
+                    <p className="ps-compact__desc">{project.description}</p>
+                  )}
+                </div>
+
+                {/* RIGHT - 60% */}
+                <div className="ps-compact__right">
+                  <span className="ps-compact__section-label">
+                    Features
+                  </span>
+
+                      {project.features && project.features.length > 0 && (
+                        <ul className="ps-compact__chips">
+                          {project.features.slice(0, 4).map((feature) => (
+                            <li key={feature} className="ps-compact__chip">
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+
+                  <div className="ps-compact__stack">
+                    <span className="ps-compact__section-label">Stack</span>
+                    <span className="ps-compact__stack-text">
+                      {project.technologies.join(" · ")}
+                    </span>
+                  </div>
+
+                  <div className="ps-compact__footer">
+                    <a
+                      href={project.liveUrl || undefined}
+                      target={project.liveUrl ? "_blank" : undefined}
+                      rel={project.liveUrl ? "noopener noreferrer" : undefined}
+                      aria-disabled={!project.liveUrl}
+                      className={`ps-compact__cta ${project.liveUrl ? "" : "disabled"}`}
+                    >
+                      <span className="ps-compact__cta-text">
+                        {project.liveUrl ? "View Project" : "Coming Soon"}
+                      </span>
+                      <span className="ps-compact__cta-arrow">
+                        <ArrowIcon />
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
-            <span className="ps-browser-label">{project.title}</span>
-          </div>
-          <div className="ps-image-area">
-            {hasImage ? (
-              <img
-                src={project.image}
-                alt={`${project.title} screenshot`}
-                loading="lazy"
-                decoding="async"
-              />
-            ) : (
-              <div className="ps-image-placeholder" aria-hidden="true" />
-            )}
-          </div>
+          ))}
         </div>
-      </div>
-
-      <div className="ps-content-col">
-        <span className="ps-project-number">{project.number}</span>
-        <h3 className="ps-project-title">{project.title}</h3>
-        {project.description && (
-          <p className="ps-project-desc">{project.description}</p>
-        )}
-        {project.technologies?.length > 0 && (
-          <div className="ps-project-tags" role="list" aria-label="Technologies used">
-            {project.technologies.map((t) => (
-              <span key={t} className="ps-project-tag" role="listitem">
-                {t}
-              </span>
-            ))}
-          </div>
-        )}
-        {project.liveUrl ? (
-          <a
-            className="ps-project-cta"
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View Project <ArrowIcon />
-          </a>
-        ) : (
-          <span className="ps-project-cta" aria-label="View project (link coming soon)">
-            View Project <ArrowIcon />
-          </span>
-        )}
-      </div>
-    </>
-  );
-}
-
-/* ── Progress indicator ───────────────────── */
-function ProgressIndicator({ activeIndex, total }) {
-  const pct = ((activeIndex + 1) / total) * 100;
-
-  return (
-    <div className="ps-bottom" aria-hidden="true">
-      <p className="ps-counter">
-        <span className="ps-counter-current">
-          {String(activeIndex + 1).padStart(2, "0")}
-        </span>{" "}
-        / {String(total).padStart(2, "0")}
-      </p>
-      <div
-        className="ps-progress-bar"
-        role="progressbar"
-        aria-valuenow={activeIndex + 1}
-        aria-valuemin={1}
-        aria-valuemax={total}
-        aria-label="Project progress"
-      >
-        <div
-          className="ps-progress-fill"
-          style={{ width: `${pct}%` }}
-        />
       </div>
     </div>
-  );
-}
-
-/* ═══════════════════════════════════════════
-   MAIN COMPONENT
-   ═══════════════════════════════════════════ */
-export default function ProjectsSection() {
-  const sectionRef = useRef(null);
-  const trackRef = useRef(null);
-  const carouselRef = useRef(null);
-  const activeIndexRef = useRef(0);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isMobile] = useState(isMobileInitial);
-
-  /* ── Desktop GSAP horizontal scroll ─────── */
-  useEffect(() => {
-    if (isMobile) return;
-
-    const trackEl = trackRef.current;
-    const sectionEl = sectionRef.current;
-    if (!trackEl || !sectionEl) return;
-
-    const cards = gsap.utils.toArray(".ps-card", trackEl);
-    if (!cards.length) return;
-
-    const total = projects.length;
-    const seg = 1 / total;
-    let ctx = null;
-
-    /* Defer setup by one rAF so Lenis + ticker are ready */
-    const rafId = requestAnimationFrame(() => {
-      ctx = gsap.context(() => {
-        /* Set initial hidden state for all cards */
-        cards.forEach((card) => {
-          gsap.set(card, { opacity: 0, scale: 0.95 });
-        });
-
-        /* Main horizontal scroll timeline */
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: sectionEl,
-            pin: true,
-            pinType: "transform",
-            start: "top top",
-            end: () => "+=" + (trackEl.scrollWidth - window.innerWidth),
-            scrub: 1,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-            onUpdate(self) {
-              const idx = Math.min(total - 1, Math.floor(self.progress / seg));
-              if (idx !== activeIndexRef.current) {
-                activeIndexRef.current = idx;
-                setActiveIndex(idx);
-              }
-            },
-          },
-        });
-
-      /* Track horizontal sweep */
-      tl.to(
-        trackEl,
-        {
-          x: () => -(trackEl.scrollWidth - window.innerWidth),
-          ease: "none",
-        },
-        0,
-      );
-
-      /* Per-project animations */
-      for (let i = 0; i < total; i++) {
-        const label = "p" + i;
-        const start = i * seg;
-
-        tl.add(label, start);
-
-        /* Card entrance */
-        tl.fromTo(
-          cards[i],
-          { opacity: 0, scale: 0.95 },
-          { opacity: 1, scale: 1, ease: "power2.out" },
-          label,
-        );
-
-        /* Card exit (except last) */
-        if (i < total - 1) {
-          tl.to(
-            cards[i],
-            { opacity: 0, scale: 0.95, ease: "power2.in" },
-            label + "+=" + seg * 0.72,
-          );
-        }
-
-        /* Staggered text reveals */
-        const textEls = gsap.utils.toArray(
-          ".ps-project-number, .ps-project-title, .ps-project-desc, .ps-project-tags, .ps-project-cta",
-          cards[i],
-        );
-
-        if (textEls.length) {
-          tl.fromTo(
-            textEls,
-            { opacity: 0, y: 18 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: seg * 0.35,
-              stagger: seg * 0.055,
-              ease: "power2.out",
-            },
-            label + "+=" + seg * 0.18,
-          );
-        }
-      }
-      }, sectionEl);
-    });
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      ctx?.revert();
-    };
-  }, [isMobile]);
-
-  /* ── Mobile intersection observer ───────── */
-  useEffect(() => {
-    if (!isMobile) return;
-
-    const el = carouselRef.current;
-    if (!el) return;
-
-    const slides = el.querySelectorAll(".ps-mobile-slide");
-    if (!slides.length) return;
-
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const idx = Number(entry.target.dataset.index);
-            if (!Number.isNaN(idx)) {
-              activeIndexRef.current = idx;
-              setActiveIndex(idx);
-            }
-          }
-        });
-      },
-      { root: el, threshold: 0.6 },
-    );
-
-    slides.forEach((s) => obs.observe(s));
-    return () => obs.disconnect();
-  }, [isMobile]);
-
-  /* ── Render ─────────────────────────────── */
-  return (
-    <>
-      {/* ── SECTION HEADER ──────────────────── */}
-      <header className="ps-header section-shell" id="projects">
-        <h2 className="ps-title">Projects</h2>
-        <p className="ps-subtitle">Selected work / things I&apos;ve built</p>
-      </header>
-
-      {/* ── DESKTOP: Pinned horizontal scroll ─ */}
-      {!isMobile && (
-        <>
-          <section ref={sectionRef} className="ps-pinned">
-            <div ref={trackRef} className="ps-track">
-              {projects.map((project) => (
-                <div className="ps-slide" key={project.number}>
-                  <div className="ps-card" aria-label={`Project ${project.number}: ${project.title}`}>
-                    <ProjectCardContent project={project} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-          <ProgressIndicator
-            activeIndex={activeIndex}
-            total={projects.length}
-          />
-        </>
-      )}
-
-      {/* ── MOBILE: Swipe carousel ─────────── */}
-      {isMobile && (
-        <div className="ps-mobile">
-          <div
-            ref={carouselRef}
-            className="ps-mobile-carousel"
-            role="region"
-            aria-label="Projects carousel"
-          >
-            {projects.map((project, i) => (
-              <article
-                className="ps-mobile-slide"
-                key={project.number}
-                data-index={i}
-                aria-label={`Project ${project.number} of ${projects.length}: ${project.title}`}
-              >
-                <div className="ps-mobile-card">
-                  <div className="ps-image-col ps-mobile-image-col">
-                    <div className="ps-browser-frame ps-mobile-browser">
-                      <div className="ps-browser-bar">
-                        <div className="ps-browser-dots">
-                          <span className="ps-browser-dot" />
-                          <span className="ps-browser-dot" />
-                          <span className="ps-browser-dot" />
-                        </div>
-                        <span className="ps-browser-label">{project.title}</span>
-                      </div>
-                      <div className="ps-image-area">
-                        {project.image ? (
-                          <img
-                            src={project.image}
-                            alt={`${project.title} screenshot`}
-                            loading="lazy"
-                            decoding="async"
-                          />
-                        ) : (
-                          <div className="ps-image-placeholder" aria-hidden="true" />
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="ps-mobile-content">
-                    <span className="ps-project-number">{project.number}</span>
-                    <h3 className="ps-project-title">{project.title}</h3>
-                    {project.description && (
-                      <p className="ps-project-desc">{project.description}</p>
-                    )}
-                    {project.technologies?.length > 0 && (
-                      <div className="ps-project-tags" role="list" aria-label="Technologies used">
-                        {project.technologies.map((t) => (
-                          <span key={t} className="ps-project-tag" role="listitem">
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                    {project.liveUrl ? (
-                      <a
-                        className="ps-project-cta"
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        View Project <ArrowIcon />
-                      </a>
-                    ) : (
-                      <span className="ps-project-cta" aria-label="View project (link coming soon)">
-                        View Project <ArrowIcon />
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-          <div className="ps-mobile-progress">
-            <ProgressIndicator
-              activeIndex={activeIndex}
-              total={projects.length}
-            />
-          </div>
-        </div>
-      )}
-    </>
   );
 }

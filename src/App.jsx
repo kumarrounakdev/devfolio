@@ -1,20 +1,20 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
+import { Agentation } from "agentation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navigation from "./components/layout/Navigation";
 import HeroSection from "./components/sections/HeroSection";
-import ProjectsSection from "./components/sections/ProjectsSection";
-import ExperienceSection from "./components/sections/ExperienceSection";
-import ToolsSection from "./components/sections/ToolsSection";
-import BlogSection from "./components/sections/BlogSection";
-import ContactSection from "./components/sections/ContactSection";
-import Footer from "./components/layout/Footer";
+import Preloader from "./components/layout/Preloader";
 import useScrollAnimations from "./hooks/useScrollAnimations";
-import { initSmoothScroll } from "./utils/smoothScroll";
-import { Agentation } from "agentation";
+import { initSmoothScroll, destroySmoothScroll } from "./utils/smoothScroll";
 import "./App.css";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const ProjectsSection = lazy(() => import("./components/sections/ProjectsSection"));
+const ToolsSection = lazy(() => import("./components/sections/ToolsSection"));
+const ContactSection = lazy(() => import("./components/sections/ContactSection"));
+const Footer = lazy(() => import("./components/layout/Footer"));
 
 export default function App() {
   const activeSection = useScrollAnimations();
@@ -22,43 +22,40 @@ export default function App() {
   useEffect(() => {
     initSmoothScroll();
 
-    /* Refresh ScrollTrigger after Lenis + all images/fonts settle */
-    window.addEventListener("load", () => ScrollTrigger.refresh());
-    const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 500);
+    document.fonts.ready.then(() => ScrollTrigger.refresh());
 
     return () => {
-      window.removeEventListener("load", () => ScrollTrigger.refresh());
-      clearTimeout(refreshTimer);
+      destroySmoothScroll();
     };
   }, []);
 
   return (
     <div className="page">
-      {process.env.NODE_ENV === "development" && (
-        <Agentation endpoint="http://localhost:4747" />
-      )}
+      <Preloader />
       <Navigation activeSection={activeSection} />
 
-      {/* Hero Section */}
       <HeroSection />
 
-      {/* Recent Projects Section */}
-      <ProjectsSection />
+      <Suspense fallback={null}>
+        <ProjectsSection />
+      </Suspense>
 
-      {/* Experience Section */}
-      <ExperienceSection />
+      <Suspense fallback={null}>
+        <ToolsSection />
+      </Suspense>
 
-      {/* Premium Tools Section */}
-      <ToolsSection />
+      <Suspense fallback={null}>
+        <ContactSection />
+      </Suspense>
 
-      {/* Design Thoughts Section */}
-      <BlogSection />
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
 
-      {/* Contact Section */}
-      <ContactSection />
-
-      {/* Footer */}
-      <Footer />
+      {import.meta.env.DEV && <Agentation endpoint="http://localhost:4747" />}
     </div>
   );
 }
+
+
+
